@@ -31,7 +31,7 @@ Example Project
 python rst_gui.py -p example_project
 ```
 ## Configuration
-### Resoleve Python API
+### Resolve Python API
 - Edit ```./resolve_tools/resolve_connect.py``` to point to your Resolve installation Resolve Python API modules.
   
 ### Config Files
