@@ -18,7 +18,7 @@ Utility to help with VFX pulls from Davinci Resolve Timelines
 
 
 ## Usage
-
+- Resolve needs to be running with the relevant timeline opened.
 ```
 python rst_gui.py -p <project name>
 ```
