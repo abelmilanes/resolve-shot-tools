@@ -28,7 +28,7 @@ python rst_gui.py -p example_project
 ```
 ## Configuration
 ### Resoleve Python API
-- Edit ```./resolve_tools/resolve_connect.py``` to point to your Resolve instalation Resolve Python API modules.
+- Edit ```./resolve_tools/resolve_connect.py``` to point to your Resolve installation Resolve Python API modules.
   
 ### Config Files
 Configuration is currently manual by editing the YAML configuration files in the **config** folder.
