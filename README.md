@@ -52,9 +52,11 @@ Additional per-project configuration file need to be created and edited. An exam
 resolve:
   vfx_plate_trk_name: SRC  
 ```
-- Curently this name will be used to name the rendered plates.
+- Curently this name is used to name the rendered plates. This can be changed in Naming section of the project configuration file.
 
 ### Kitsu
+A Kitsu Project need to be present. The project name should be mirrored in the ```proj_master_config.yaml``` file.
+
 Kitsu Server URL can be edited in the configuration files. You need administrative credentials to publish Kitsu shot entries. The creadential are read fomr the following System Environment Variables:
 ```
 TX_KITSU_ADMIN = username
