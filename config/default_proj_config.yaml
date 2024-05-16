@@ -1,0 +1,133 @@
+# This file sets the default configuration of a project
+# Project
+project:
+  name: Default Project #Project long name
+  alias: default_project #Project alias for folder structure
+  format: 2K DCI
+  width: 2048
+  height: 1080
+  fps: 24
+  ocio: aces_1.2
+
+  # Project folders
+  path: /path/to/project/directory        # This folder need to be created manually. Override by individual project config.yaml
+  tmp_path: tmp                           # This folder need to be created manually
+
+  #Add sequences
+  sequences:                              # Sequences prefixes to be used. The list of sequence get overwriten by local project config files
+    - tst                                 # Sequence folder are created unde the project name
+
+# Kitsu
+# Any folder will be created on the project folder
+kitsu:
+  server: 'http://192.168.100.80:8800'    # Your Kitsu server URL
+  config_folder: config                   # This folder need to be created manually
+  thumbnail_folder: thumbnails            # Directory to save thumbnails for Kitsu shot entries. This folder is cretated automatically
+
+  # Defaults for shot creation
+  shot_create_task: Comp                  # This need to be a valid task name in Kitsu
+  shot_create_status: RTS                 # Ready to start. This need to be a valid status name in Kitsu
+  shot_create_comment: Version 00
+  shot_interval: 10
+  shot_padding: 4
+  kitsu_data: ['Project',
+               'Episode',
+               'Sequence',
+               'Name',
+               'Description',
+               'Nb Frames',
+               'Frame In',
+               'Frame Out',
+               'Artist',
+               'Status',
+               'Notes',
+               'Focal',
+               'FStop']
+
+#Resolve
+resolve:
+  vfx_plate_trk_name: SRC                 # Track used to pull source shot plates
+  vfx_shots_trk_name: VFX                 # Track used to update VFX takes (Not currently Implemented)
+  vfx_handles: 8
+  default_render_preset: exr_plates
+
+  clip colors:
+    - Orange
+    - Apricot
+    - Yellow
+    - Lime
+    - Olive
+    - Green
+    - Teal
+    - Navy
+    - Blue
+    - Purple
+    - Violet
+    - Pink
+    - Tan
+    - Beige
+    - Brown
+    - Chocolate
+  flag colors: #Flags and Markers
+    - Blue
+    - Cyan
+    - Green
+    - Yellow
+    - Red
+    - Pink
+    - Purple
+    - Fuchsia
+    - Rose
+    - Lavender
+    - Sky
+    - Mint
+    - Lemon
+    - Sand
+    - Cocoa
+    - Cream
+    - Frame.io
+  odt:
+    - Rec.709
+    - ACEScg - CSC
+    - ACEScct - CSC
+    - ACEScc - CSC
+    - sRGB
+    - Linear
+  id_as:
+    - Versions
+    - Markers
+    - Clip Name
+    - Shot Name
+  vfx_tasks:
+    - elem
+    - roto
+    - comp
+    - light
+    - layout
+    - fx
+
+  shot_start: 1001
+
+
+#Naming Convention
+naming_convention:
+  shotid:
+    pfix: pfix_
+    pad: 4
+    interval: 10
+  version:
+    pad: 2
+  image:
+    pad: 4
+    plate:
+      path: images/elem
+      file: shotid.track
+    comp:
+      path: images/comp
+      file: shotid.comp.version
+    pcomp:
+      path: images/pcomp
+      file: shotid.pcomp_pass_name.version
+    render:
+      path: images/render
+      file: shotid.scene.pass_name.version

@@ -1,0 +1,16 @@
+#Projects Config
+projects:
+  # Add projects here
+  - example_project: # Included example project. The root parameter is set to where the rst_gui.py program lives
+      name: Example Project
+      alias: example_project
+      root: .
+
+  - my_project:
+      name: My Project
+      alias: myproject
+      root: /mnt/projects
+
+
+
+

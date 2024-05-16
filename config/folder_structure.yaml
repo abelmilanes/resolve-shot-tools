@@ -1,0 +1,26 @@
+---
+presets:
+  project:
+    folders:
+    - name: config
+      default: true
+
+  level:
+    folders:
+    - name: config
+      default: true
+    - name: images
+      default: true
+
+  seq:
+    folders:
+    - name: images
+      default: false
+      folders:
+      - name: elem
+        default: true
+
+  elem:
+    folders:
+    - name: plates
+      default: true

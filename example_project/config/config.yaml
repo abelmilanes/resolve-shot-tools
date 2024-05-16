@@ -1,0 +1,51 @@
+#
+# Project
+project:
+  name: Example Project                   #Project long name
+  alias: example_project                  #Project alias for folder structure
+  format: 4K DCI
+  width: 4096
+  height: 2160
+  fps: 24
+  ocio: aces_1.2
+
+  # Project folders
+  path: .                                 # This folder need to be created manually. Override by individual project config.yaml
+
+  #Add sequences
+  sequences:                              # Sequences prefixes to be used. The list of sequence get overwriten by local project config files
+    - seq01
+    - seq02
+    - seq03
+
+
+# Kitsu
+kitsu:
+  server: 'http://192.168.100.80:8800'    # Your Kitsu server URL
+
+  #Defaults for shot creation
+  shot_interval: 10
+  shot_padding: 3
+
+naming_convention:
+  shotid:
+    pfix: sht                             # Prefix to e used in shot names before the number. Change this to "sequence" if you want to use the sequence name as the prefix
+    # pfix: sequence_
+    pad: 3
+    interval: 10
+  version:
+    pad: 3
+  image:
+    pad: 4
+    plate:
+      path: images/elem
+      file: shotid.track
+    comp:
+      path: images/comp
+      file: shotid.comp.version
+    pcomp:
+      path: images/pcomp
+      file: shotid.pcomp_pass_name.version
+    render:
+      path: images/render
+      file: shotid.scene.pass_name.version
