@@ -37,7 +37,7 @@ python rst_gui.py -p example_project
 ### Config Files
 Configuration is currently manual by editing the YAML configuration files in the **config** folder.
 
-Additionally, per project configuration file need to e created and edited. An example project is included in the **example_project** folder.
+Additional per-project configuration file need to be created and edited. An example project is included in the **example_project** folder.
 
 - Edit the ```./config/proj_master_config.yaml``` file to add you projects
 - Edit the ```./config/default_proj_config.yaml``` file to set default parameters for all your projects
