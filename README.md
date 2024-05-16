@@ -39,7 +39,7 @@ Configuration is currently manual by editing the YAML configuration files in the
 
 Additional per-project configuration file need to be created and edited. An example project is included in the **example_project** folder.
 
-- Edit the ```./config/proj_master_config.yaml``` file to add you projects
+- Edit the ```./config/proj_master_config.yaml``` file to add your projects
 - Edit the ```./config/default_proj_config.yaml``` file to set default parameters for all your projects
 - Create and edit per project ```config.yaml``` files to se overrides for specific project parameters. This file should be placed in the ```<project root dir>/config``` folder. An example is provided in the ```./example_project``` folder.
 
