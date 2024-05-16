@@ -50,5 +50,14 @@ resolve:
 ```
 - Curently this name will be used to name the rendered plates.
 
+### Kitsu
+Kitsu Server URL can be edited in the configuration files. You need administrative credentials to publish Kitsu shot entries. The creadential are read fomr the following System Environment Variables:
+```
+TX_KITSU_ADMIN = username
+TX_KITSU_PASWD = password
+```
+In addition, valid Task and Status enries need to be defined in the Kitsu Project. These need to match the ones set in the Kistu section of the configuration files.
+
+
 ## Notes and Disclaimer 
 This project is a HEAVY work in progres and some sections will brake. I am an artist not a developer and the code is far from being efficient. This project is provided as a proof of concept for a more robust tool.
