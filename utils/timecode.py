@@ -94,3 +94,30 @@ def frames_to_timecode(total_frames, frame_rate, drop):
     seconds = int(total_frames / fps_int % 60)
     frames = int(total_frames % fps_int)
     return "%02d:%02d:%02d%s%02d" % (hours, minutes, seconds, smpte_token, frames)
+
+
+def adjust_timecode(timecode, frame_delta, frame_rate=24.0):
+    # Split the timecode into its components
+    hours, minutes, seconds, frames = map(int, timecode.split(':'))
+
+    # Convert everything to total frames
+    total_frames = ((hours * 3600 + minutes * 60 + seconds) * frame_rate) + frames
+
+    # Adjust the total frames by frame_delta
+    total_frames += frame_delta
+
+    # Ensure total_frames is non-negative
+    if total_frames < 0:
+        total_frames = 0
+
+    # Convert total frames back to hours, minutes, seconds, and frames
+    frames = total_frames % frame_rate
+    total_seconds = total_frames // frame_rate
+    seconds = total_seconds % 60
+    total_minutes = total_seconds // 60
+    minutes = total_minutes % 60
+    hours = total_minutes // 60
+
+    # Reassemble the components into a string
+    new_timecode = f"{hours:02}:{minutes:02}:{seconds:02}:{frames:02}"
+    return new_timecode

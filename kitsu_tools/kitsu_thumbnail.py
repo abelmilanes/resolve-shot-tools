@@ -5,7 +5,7 @@ import gazu
 import numpy as np
 from PIL import Image
 
-from resolve_tools.resolve_connect import current_timeline
+from resolve_tools.resolve_connect import ResolveConnection
 
 
 # Decode from base64 image string and return cv2 matrix image in BGR format for display
@@ -16,7 +16,8 @@ def readb64(base64_string, width, height):
 
 
 def get_thumb(config, shot_id):
-    ct = current_timeline()
+    resolve = ResolveConnection()
+    ct = resolve.get_current_timeline()
     project_name = config['project']['alias']
     project_dir = config['project']['path']
     config_folder = config['kitsu']['config_folder']
@@ -28,7 +29,6 @@ def get_thumb(config, shot_id):
     print(filename)
 
     curr_thumb = ct.GetCurrentClipThumbnailImage()
-    print(dir(curr_thumb))
     if (curr_thumb is None) or (len(curr_thumb) == 0):
         print("There is no current media thumbnail")
 
@@ -56,7 +56,6 @@ def post_preview(preview_file, shot, task, stat, note, dry_run=True, del_file=Fa
         print(e)
         pass
     task_sb = gazu.task.get_task_by_name(shot, task_type)
-    # print(dir(gazu.task))
     comment = gazu.task.add_comment(task_sb, task_stat, note)
 
     preview_file = gazu.task.add_preview(

@@ -1,18 +1,21 @@
 import gazu
 
 from kitsu_tools.kitsu_thumbnail import get_thumb, post_preview
-from resolve_tools.resolve_connect import resolve
-from resolve_tools.resolve_utils import get_clips, go_to_frame
-from proj_tools.proj_utils import message
+from resolve_tools.resolve_connect import ResolveConnection
+from resolve_tools.resolve_utils import ResolveUtils
+from proj_tools.proj_utils import ProjectUtils
 
 
 def create_shot(config, proj, seq, clip_color, offset_index, dry_run=True):
+    resolve = ResolveConnection().dr
+
+    message = ProjectUtils().message
+    get_clips = ResolveUtils().get_clips
     clips_dict = get_clips(clip_color, seq, offset_index)
-    curr_page = resolve().GetCurrentPage()
+    curr_page = resolve.GetCurrentPage()
     if not dry_run:
-        resolve().OpenPage('color')
+        resolve.OpenPage('color')
     for clip_id, clip_data in clips_dict.items():
-        clip = clip_data["clip"]
         shot_id = clip_data['shot_id']
 
         # # Get shot_id from marker
@@ -70,7 +73,7 @@ def create_shot(config, proj, seq, clip_color, offset_index, dry_run=True):
                 }
             }
             for k, v in kitsu_metadata.items():
-                message("%s: %s" % (k, v))
+                message(f"{k}: {v}")
 
             if not dry_run:
                 sequence = gazu.shot.get_sequence_by_name(project, seq, episode=None)
@@ -80,12 +83,11 @@ def create_shot(config, proj, seq, clip_color, offset_index, dry_run=True):
                 descriptors = []
                 for d in get_descriptors:
                     descriptors.append(d['name'])
-                print(descriptors)
-                # for metadata in kitsu_metadata:
-                #     if metadata not in descriptors:
-                #         print(dir(gazu.project.add_metadata_descriptor))
-                #         gazu.project.add_metadata_descriptor(project, metadata, 'Shot')
-                #         message('Created metadata descriptor: '+metadata)
+                for key, value in kitsu_metadata.items():
+                    if key not in descriptors:
+                        if value:
+                            gazu.project.add_metadata_descriptor(project, key, 'Shot')
+                            message(f"Created metadata descriptor: {key}")
 
                 shot = gazu.shot.new_shot(
                     project,
@@ -96,6 +98,7 @@ def create_shot(config, proj, seq, clip_color, offset_index, dry_run=True):
                     data=kitsu_metadata
                 )
 
+                go_to_frame = ResolveUtils().go_to_frame
                 go_to_frame(clip_data['clip_start']+1, True)
                 preview = get_thumb(config, shot_id)
                 ###########################################
@@ -109,8 +112,8 @@ def create_shot(config, proj, seq, clip_color, offset_index, dry_run=True):
                 ###########################################
 
     # Back to original Resolve Module
-    if resolve().GetCurrentPage() != curr_page:
-        resolve().OpenPage(curr_page)
+    if resolve.GetCurrentPage() != curr_page:
+        resolve.OpenPage(curr_page)
 
 
 if __name__ == "__main__":

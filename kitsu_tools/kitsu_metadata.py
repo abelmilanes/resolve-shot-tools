@@ -1,11 +1,11 @@
 import gazu
 
 from kitsu_tools.kitsu_connect import get_kitsu
-from proj_tools.proj_data import config
+from proj_tools.proj_data import Config
 
 
 def shot_metadata(proj, shot_id):
-    conf = config()
+    conf = Config().get_config()
     server = conf[conf['project']['alias']]['kitsu_host']
     get_kitsu(server)
     print("%s:\n%s - %s" % ("Pulling Kitsu Data for", proj, shot_id))

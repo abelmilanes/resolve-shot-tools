@@ -2,66 +2,83 @@ import os
 import yaml
 
 
-# Read master config file
-def master_config():
-    # A master config file to pull different project config files
-    config_file = os.path.join(os.path.dirname(__file__), '../config/proj_master_config.yaml')
-    data = {}
-    with open(config_file, 'r') as stream:
+class Config:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Config, cls).__new__(cls)
+            cls._instance._config = cls._instance._load_config()
+        return cls._instance
+
+    def _load_config(self):
+        project_alias = os.getenv('RST_PROJ')
+        if not project_alias:
+            raise ValueError("Project alias must be provided or set in the environment variable 'RST_PROJ'.")
+        return project_config(project_alias)
+
+    def get_config(self):
+        return self._config
+
+
+CONFIG_DIR = os.path.join(os.path.dirname(__file__), '../config')
+MASTER_CONFIG_FILE = os.path.join(CONFIG_DIR, 'proj_master_config.yaml')
+DEFAULT_CONFIG_FILE = os.path.join(CONFIG_DIR, 'default_proj_config.yaml')
+
+
+def load_yaml(file_path):
+    if not os.path.exists(file_path):
+        print(f"File not found: {file_path}")
+        return {}
+    with open(file_path, 'r') as stream:
         try:
-            data = (yaml.safe_load(stream))
+            return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
-            print(exc)
-    return data
+            print(f"Error loading YAML file: {file_path}\n{exc}")
+            return {}
 
 
-# Project list
+def master_config():
+    return load_yaml(MASTER_CONFIG_FILE)
+
+
 def projects():
-    project_list = []
-    for proj in master_config()['projects']:
+    return [proj[next(iter(proj))]['name'] for proj in master_config().get('projects', [])]
+
+
+def deep_merge_dicts(source, destination):
+    for key, value in source.items():
+        if isinstance(value, dict):
+            node = destination.setdefault(key, {})
+            deep_merge_dicts(value, node)
+        else:
+            destination[key] = value
+    return destination
+
+
+def project_config(project_alias):
+    config_data = {}
+    master_data = master_config()
+    for proj in master_data.get('projects', []):
         for param, value in proj.items():
-            project_list.append(value['name'])
-    return project_list
+            if value['alias'] == project_alias:
+                master_data = {param: value}
+                default_data = load_yaml(DEFAULT_CONFIG_FILE)
+                project_config_file = os.path.join(value['root'], value['alias'], 'config/config.yaml')
+                project_data = load_yaml(project_config_file)
+
+                config_data = deep_merge_dicts(default_data, master_data)
+                config_data = deep_merge_dicts(project_data, config_data)
+
+                if config_data['project']['path'] == ".":
+                    config_data['project']['path'] = os.getcwd()
+                break
+    return config_data
 
 
-# Read specific project config
-def project_config(project):
-    data = {}
-    for proj in master_config()['projects']:
-        for param, value in proj.items():
-            if value['alias'] == project:
-                # Project config file should be at the project level
-                mtr_data = {param: value}
-                def_data = {}
-                prj_data = {}
-                def_config_file = os.path.join(os.path.dirname(__file__), '../config/default_proj_config.yaml')
-
-                prj_config_file = os.path.join(value['root'], value['alias'], 'config/config.yaml')
-
-                try:
-                    if os.path.exists(def_config_file):
-                        with open(def_config_file, 'r') as stream1:
-                            def_data = (yaml.safe_load(stream1))
-                except yaml.YAMLError as exc:
-                    print(exc)
-                try:
-                    if os.path.exists(prj_config_file):
-                        with open(prj_config_file, 'r') as stream2:
-                            prj_data = (yaml.safe_load(stream2))
-
-                except yaml.YAMLError as exc:
-                    print(exc)
-                data = {**mtr_data, **def_data, **prj_data}
-                if data['project']['path'] == ".":
-                    data['project']['path'] = os.getcwd()
-    return data
-
-
-def config():
-    project = os.environ['RST_PROJ']
-    proj_config = project_config(project)
-    return proj_config
-
-
-if __name__ == "__main__":
-    pass
+def config(project_alias=None):
+    if project_alias is None:
+        project_alias = os.getenv('RST_PROJ')
+    if not project_alias:
+        raise ValueError("Project alias must be provided or set in the environment variable 'RST_PROJ'.")
+    return project_config(project_alias)

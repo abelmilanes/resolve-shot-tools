@@ -1,14 +1,17 @@
 import csv
 
-from proj_tools.proj_data import config as proj_config
-from resolve_tools.resolve_utils import get_clips
+from proj_tools.proj_data import Config
+from resolve_tools.resolve_utils import ResolveUtils
 
 
-def export_csv(seq, clip_color, dryrun=True):
-    config = proj_config()
+def export_csv(seq, clip_color, index_offset, dryrun=True):
+    resolve_utils = ResolveUtils()
+    config = Config().get_config()
+
     project = config['project']['name']
     data_dict = []
-    clips_data = get_clips(clip_color, seq)
+    get_clips = resolve_utils.get_clips
+    clips_data = get_clips(clip_color, seq, index_offset)
     for clip, data in clips_data.items():
         csv_dict = {'Project': project,
                     'Episode': '',

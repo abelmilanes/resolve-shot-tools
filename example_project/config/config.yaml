@@ -28,24 +28,33 @@ kitsu:
   shot_padding: 3
 
 naming_convention:
+  # Shot naming convention
   shotid:
     pfix: sht                             # Prefix to e used in shot names before the number. Change this to "sequence" if you want to use the sequence name as the prefix
-    # pfix: sequence_
-    pad: 3
-    interval: 10
+    pad: 3                                # Shot number padding
+    interval: 10                          # Default interval between shot numbers
+
+  # Default Version Padding
   version:
     pad: 3
+
+  # Various image naming convention
   image:
     pad: 4
+
+    # Subcategories
     plate:
-      path: images/elem
-      file: shotid.track
+      path: images/elem                   # Directory structure with a shot folder
+      file: shotid.track                  # Plate Directory and Clip names
+
     comp:
       path: images/comp
       file: shotid.comp.version
+
     pcomp:
       path: images/pcomp
       file: shotid.pcomp_pass_name.version
+
     render:
       path: images/render
       file: shotid.scene.pass_name.version

@@ -1,4 +1,4 @@
-#!.venv/bin/python
+#!/usr/bin/env python
 
 import os
 import sys
@@ -9,30 +9,22 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette, QColor
 
 from ui import rst_ui as window
-
-
-# Get Resolve render presets
-def dr_render_presets():
-    from resolve_tools.resolve_utils import render_presets
-    presets = []
-    for k, v in sorted(render_presets().items()):
-        presets.append(v)
-    return presets
-
-
-def quit_app():
-    # some actions to perform before actually quitting:
-    print('CLEAN EXIT')
-    QtWidgets.QApplication.quit()
+from proj_tools.proj_data import Config
+from resolve_tools.resolve_utils import ResolveUtils
+from resolve_tools.resolve_shots_ids import ShotIdentifier
+from resolve_tools.resolve_deliver import vfx_plate_job
+from resolve_tools.resolve_export_csv import export_csv
+from kitsu_tools import kitsu_shots, kitsu_connect
 
 
 class PrjApp(window.Ui_main_window, QtWidgets.QMainWindow):
     def __init__(self, project):
         super(PrjApp, self).__init__()
-        from proj_tools.proj_data import project_config
-        self.config = project_config(project)
+        self.config = Config().get_config()
+        self.resolve_utils = ResolveUtils()
+        self.shot_identifier = ShotIdentifier()
         config = self.config
-        self.render_presets = dr_render_presets()
+        self.render_presets = self.dr_render_presets()
         self.process = None
         self.setupUi(self)
         self.setFixedSize(self.size())
@@ -64,46 +56,50 @@ class PrjApp(window.Ui_main_window, QtWidgets.QMainWindow):
         sys.stdout = EmittingStream()
         sys.stdout.msg.connect(self.message)
 
-        initial_message = ""
-        initial_message += 'PROJECT PARAMETERS:\n'
-        for k, v in config['project'].items():
-            initial_message += "%s: %s\n" % (k, v)
-        initial_message += '\nKITSU PARAMETERS:\n'
-        for k, v in config['kitsu'].items():
-            initial_message += "%s: %s\n" % (k, v)
+        resolve_version = self.resolve_utils.get_resolve_version()
+        self.message(f"Resolve is connected.\n{resolve_version}\n")
 
+        initial_message = self.get_initial_message(config)
         self.message(initial_message)
-        self.message("Resolve is running!")
+
+    def get_initial_message(self, config):
+        initial_message = "PROJECT PARAMETERS:\n"
+        for k, v in config['project'].items():
+            initial_message += f"{k}: {v}\n"
+        initial_message += "\nKITSU PARAMETERS:\n"
+        for k, v in config['kitsu'].items():
+            initial_message += f"{k}: {v}\n"
+        return initial_message
+
+    def dr_render_presets(self):
+        render_presets = self.resolve_utils.render_presets()
+        presets = [v for k, v in sorted(render_presets.items())]
+        return presets
 
     def message(self, s):
         self.messages_TE.append(s)
 
     def name_shots(self):
-        from resolve_tools.resolve_shots_ids import shots_ids
         self.messages_TE.clear()
         if self.process is None:
             dry = self.dryrun_CKB.isChecked()
             self.message("Creating Resolve VFX Shots IDs...")
-            self.message("Dry run: " + str(dry))
+            self.message(f"Dry run: {dry}")
             seq = self.seq_CB.currentText()
             clip_color = self.clipcolor_CB.currentText()
             flag_color = self.flag_CB.currentText()
             mode = self.createas_CB.currentText()
             shot_index_toggle = self.start_index_CKB.isChecked()
             shot_index = int(self.start_index_LE.text())
-            if shot_index_toggle:
-                shots_ids(mode, clip_color, flag_color, seq, shot_index, dry)
-            else:
-                shots_ids(mode, clip_color, flag_color, seq, 0, dry)
+            index_offset = shot_index if shot_index_toggle else 0
+            self.shot_identifier.shots_ids(mode, clip_color, flag_color, seq, index_offset, dry)
 
     def kitsu_create_shots(self):
-        from kitsu_tools import kitsu_shots, kitsu_connect
-
         self.messages_TE.clear()
         if self.process is None:
             dry = self.dryrun_CKB.isChecked()
             self.message("Creating Kitsu shots entries...")
-            self.message("Dry run: " + str(dry))
+            self.message(f"Dry run: {dry}")
             proj = self.proj_TE.text()
             seq = self.seq_CB.currentText()
             clip_color = self.clipcolor_CB.currentText()
@@ -112,79 +108,56 @@ class PrjApp(window.Ui_main_window, QtWidgets.QMainWindow):
             shot_index = int(self.start_index_LE.text())
             kitsu_url = self.kitsuURL.text()
             kitsu_connect.get_kitsu(kitsu_url)
-            if shot_index_toggle:
-                kitsu_shots.create_shot(config, proj, seq, clip_color, shot_index, dry)
-            else:
-                kitsu_shots.create_shot(config, proj, seq, clip_color, 0, dry)
+            index_offset = shot_index if shot_index_toggle else 0
+            kitsu_shots.create_shot(config, proj, seq, clip_color, index_offset, dry)
 
     def clear_ids(self):
-        from resolve_tools.resolve_shots_ids import clear_ids
         self.messages_TE.clear()
         if self.process is None:
             dry = self.dryrun_CKB.isChecked()
             self.message("Clearing Resolve VFS IDs...")
-            self.message("Dry run: " + str(dry))
+            self.message(f"Dry run: {dry}")
             clip_color = self.clipcolor_CB.currentText()
             flag_color = self.flag_CB.currentText()
             mode = self.createas_CB.currentText()
             seq = self.seq_CB.currentText()
-            clear_ids(clip_color, flag_color, seq, mode, dry)
-
-    def create_folders(self):
-        self.messages_TE.clear()
-        pass
+            self.shot_identifier.clear_ids(clip_color, flag_color, seq, mode, dry)
 
     def render_jobs(self):
-        from resolve_tools.resolve_deliver import vfx_plate_job
         self.messages_TE.clear()
         if self.process is None:
             self.message("Creating VFX Plates Jobs")
             dry = self.dryrun_CKB.isChecked()
-            # proj = self.proj_TE.text()
             seq = self.seq_CB.currentText()
-            # rnd = self.render_CKB.isChecked()
             clipcolor = self.clipcolor_CB.currentText()
             flagcolor = self.flag_CB.currentText()
             job_preset = self.job_presets_CB.currentText()
             config = self.config
             shot_index_toggle = self.start_index_CKB.isChecked()
             shot_index = int(self.start_index_LE.text())
-            if shot_index_toggle:
-                vfx_plate_job(config, clipcolor, flagcolor, seq, shot_index, job_preset, dry)
-            else:
-                vfx_plate_job(config, clipcolor, flagcolor, seq, 0, job_preset, dry)
-
-    def print_preset(self):
-        p = self.job_presets_CB.currentText()
-        return p
-
-    def process_finished(self):
-        self.message("Process finished")
-        self.process = None
+            index_offset = shot_index if shot_index_toggle else 0
+            vfx_plate_job(config, clipcolor, flagcolor, seq, index_offset, job_preset, dry)
 
     def set_odt(self):
-        from resolve_tools.resolve_utils import render_odt
         self.messages_TE.clear()
         if self.process is None:
-            dry = False
-            self.message("Setting Resolve ODT to:")
-            self.message("Dry run: " + str(dry))
             odt = self.odt_CB.currentText()
-            self.message(odt)
-            render_odt(odt)
+            self.resolve_utils.render_odt(odt)
 
     def export_csv(self):
-        from resolve_tools.resolve_export_csv import export_csv
         self.messages_TE.clear()
         if self.process is None:
             dry = self.dryrun_CKB.isChecked()
             self.message("Exporting Shots CSV file to:")
             config = self.config
             self.message(config['kitsu']['config_folder'])
-            self.message("Dry run: " + str(dry))
+            self.message(f"Dry run: {dry}")
             seq = self.seq_CB.currentText()
             clip_color = self.clipcolor_CB.currentText()
-            export_csv(seq, clip_color, dry)
+            shot_index_toggle = self.start_index_CKB.isChecked()
+            shot_index = int(self.start_index_LE.text())
+            index_offset = shot_index if shot_index_toggle else 0
+            export_csv(seq, clip_color, index_offset, dry)
 
 
 class EmittingStream(QtCore.QObject):
@@ -197,8 +170,13 @@ class EmittingStream(QtCore.QObject):
         pass
 
 
+def quit_app():
+    print('CLEAN EXIT')
+    QtWidgets.QApplication.quit()
+
+
 def run(project):
-    app = QtWidgets.QApplication()
+    app = QtWidgets.QApplication(sys.argv)
 
     dark_palette = QPalette()
     dark_palette.setColor(QPalette.Window, QColor(53, 53, 53))
@@ -223,28 +201,8 @@ def run(project):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Tools to helt with VFX shot work in Davinci Resolve')
-    parser.add_argument('-p', '--project',
-                        action="store",
-                        dest="project",
-                        help='VFX Project name')
-
-    # parser.add_argument('-c', '--config',
-    #                     action="store",
-    #                     dest="config",
-    #                     default='./example_project/config/config.yaml',
-    #                     help='Image sequence or movie clip')
-    #
-    # parser.add_argument('-d', '--directory',
-    #                     action="store",
-    #                     dest="directory",
-    #                     default='./example_project',
-    #                     help='Image sequence or movie clip')
-    #
-    # parser.add_argument('-n', '--dry_run',
-    #                     action="store_true",
-    #                     dest="dry_run",
-    #                     help='Print results but dont do anything')
+    parser = argparse.ArgumentParser(description='Tools to help with VFX shot work in DaVinci Resolve')
+    parser.add_argument('-p', '--project', action="store", dest="project", help='VFX Project name')
 
     args = parser.parse_args()
 

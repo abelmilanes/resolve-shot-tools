@@ -92,7 +92,7 @@ resolve:
     - ACEScct - CSC
     - ACEScc - CSC
     - sRGB
-    - Linear
+    - sRGB (Linear) - CSC
   id_as:
     - Versions
     - Markers

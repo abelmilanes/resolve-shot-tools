@@ -1,61 +1,45 @@
-
-"""
-DaVinci Resolve needs to be running for a script to be invoked.
-
-For a Resolve script to be executed from an external folder, the script needs to know of the API location.
-You may need to set the these environment variables to allow for your Python installation to pick up the appropriate dependencies as shown below:
-
-    Mac OS X:
-    RESOLVE_SCRIPT_API="/Library/Application Support/Blackmagic Design/DaVinci Resolve/Developer/Scripting"
-    RESOLVE_SCRIPT_LIB="/Applications/DaVinci Resolve/DaVinci Resolve.app/Contents/Libraries/Fusion/fusionscript.so"
-    PYTHONPATH="$PYTHONPATH:$RESOLVE_SCRIPT_API/Modules/"
-
-    Windows:
-    RESOLVE_SCRIPT_API="%PROGRAMDATA%\Blackmagic Design\DaVinci Resolve\Support\Developer\Scripting"
-    RESOLVE_SCRIPT_LIB="C:\Program Files\Blackmagic Design\DaVinci Resolve\fusionscript.dll"
-    PYTHONPATH="%PYTHONPATH%;%RESOLVE_SCRIPT_API%\Modules\"
-
-    Linux:
-    RESOLVE_SCRIPT_API="/opt/resolve/Developer/Scripting"
-    RESOLVE_SCRIPT_LIB="/opt/resolve/libs/Fusion/fusionscript.so"
-    PYTHONPATH="$PYTHONPATH:$RESOLVE_SCRIPT_API/Modules/"
-    (Note: For standard ISO Linux installations, the path above may need to be modified to refer to /home/resolve instead of /opt/resolve)
-"""
+# resolve_tools/resolve_connect.py
 
 import sys
 
 
-def resolve():
-    sys.path.append('/mnt/apps/linux/resolve/Developer/Scripting/Modules')
-    sys.path.append('/mnt/apps/linux/resolve/libs/Fusion')
-    import DaVinciResolveScript as bmd
-    return bmd.scriptapp("Resolve")
+class ResolveConnection:
+    _instance = None
 
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(ResolveConnection, cls).__new__(cls)
+            cls._instance._initialize()
+        return cls._instance
 
-try:
-    dr = resolve()
-    pm = dr.GetProjectManager()
-    rp = pm.GetCurrentProject()  # Get current project
-    print(dr.GetProductName(), dr.GetVersionString())
+    def _initialize(self):
+        sys.path.append('/mnt/apps/linux/resolve/Developer/Scripting/Modules')
+        sys.path.append('/mnt/apps/linux/resolve/libs/Fusion')
+        try:
+            import DaVinciResolveScript as bmd
+            self.dr = bmd.scriptapp("Resolve")
+            self.pm = self.dr.GetProjectManager()
+            self.rp = self.pm.GetCurrentProject()
+            print(self.dr.GetProductName(), self.dr.GetVersionString())
+        except ImportError as e:
+            print("Failed to import DaVinci Resolve Script module:", e)
+            sys.exit(1)
+        except Exception as ex:
+            print("Resolve not running:", ex)
+            sys.exit(1)
 
+    def get_current_project(self):
+        return self.pm.GetCurrentProject()
 
-except Exception as ex:
-    print("Resolve not running: \n", ex)
-    sys.exit()
-    pass
+    def get_current_timeline(self):
+        return self.rp.GetCurrentTimeline()
 
+    def get_render_presets(self):
+        return self.rp.GetRenderPresets()
 
-def current_project():
-    return pm.GetCurrentProject()
+    def get_render_jobs(self):
+        return self.rp.GetRenderJobList()
 
-
-def current_timeline():
-    return rp.GetCurrentTimeline()
-
-
-def render_presets():
-    return rp.GetRenderPresets()
-
-
-def render_jobs():
-    return rp.GetRenderJobList()
+# Example usage:
+# resolve_conn = ResolveConnection()
+# current_project = resolve_conn.get_current_project()

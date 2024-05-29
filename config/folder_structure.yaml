@@ -1,4 +1,6 @@
 ---
+# Folder structure presets used by proj_utils.py ProjectUtils.mk_tree method
+# Currently not used
 presets:
   project:
     folders:

@@ -1,113 +1,75 @@
 ---
 presets:
+
   project:
     folders:
     - name: config
       default: true
       folders:
-      - name: ocio
-        default: false
-      - name: scripts
-        default: false
-      - name: bin
-        default: false
-      - name: nuke
-        default: false
+      - name: kitsu
+        default: true
     - name: editorial
-      default: true
-    - name: deliver
-      default: true
-    - name: grade
       default: true
       folders:
       - name: resolve
         default: true
-      - name: daylight
-        default: false
-    - name: media
-      default: true
-      folders:
-      - name: frame.io
-        default: false
-      - name: graphics
-        default: false
-      - name: offline
-        default: false
-      - name: reference
-        default: false
-      - name: temp
-        default: true
-  level:
-    folders:
-    - name: assets
-      default: true
-    - name: config
-      default: true
-    - name: images
-      default: true
-      folders:
-      - name: comp
-        default: true
-      - name: elem
-        default: true
-      - name: render
-        default: true
-      - name: pcomp
-        default: false
-      - name: reference
-        default: true
-    - name: movies
-      default: true
-    - name: resolve_vfx_connect
-      default: false
+
   seq:
     folders:
     - name: assets
-      default: true
+      default: false
     - name: images
       default: false
       folders:
       - name: comp
         default: false
       - name: elem
-        default: true
+        default: false
       - name: render
         default: false
       - name: reference
-        default: true
+        default: false
     - name: reference
       default: false
+
+  shot:
+    folders:
+      - name: images
+        default: true
+        folders:
+          - name: comp
+            default: true
+          - name: elem
+            default: true
+          - name: render
+            default: true
+          - name: pcomp
+            default: false
+          - name: reference
+            default: true
+      - name: movies
+        default: true
+
   elem:
     folders:
     - name: plates
-      default: true
+      default: false
     - name: reference
-      default: true
+      default: false
+
   apps:
     folders:
     - name: blender
-      default: true
+      default: false
     - name: fusion
       default: false
     - name: houdini
-      default: true
+      default: false
     - name: maya
       default: false
     - name: mocha
-      default: true
+      default: false
     - name: nuke
-      default: true
+      default: false
     - name: gaffer
-      default: true
-  frame_io:
-    folders:
-    - name: nuke
-      default: true
-    - name: houdini
-      default: true
-    - name: movies
-      default: true
-    - name: blender
-      default: true
-    - name: assets
-      default: true
+      default: false
