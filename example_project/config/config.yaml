@@ -1,16 +1,19 @@
-#
+# Project configuration file
+# It overrides any configuration set in the proj_master_config.yaml file
+
 # Project
 project:
-  name: Example Project                   #Project long name
-  alias: example_project                  #Project alias for folder structure
+  name: Example Project                   # Project long name
+  alias: example_project                  # Project alias for folder structure
   format: 4K DCI
   width: 4096
   height: 2160
   fps: 24
-  ocio: aces_1.2
+  ocio: aces_1.2                          # Currently not used
 
   # Project folders
-  path: .                                 # This folder need to be created manually. Override by individual project config.yaml
+  path: .                                 # This folder need to be created manually. In this example project path is set to where the rst_gui.py lives
+  tmp_path: tmp
 
   #Add sequences
   sequences:                              # Sequences prefixes to be used. The list of sequence get overwriten by local project config files
@@ -20,6 +23,7 @@ project:
 
 
 # Kitsu
+# Any folder will be created on the project folder
 kitsu:
   server: 'http://192.168.100.80:8800'    # Your Kitsu server URL
 
@@ -27,10 +31,21 @@ kitsu:
   shot_interval: 10
   shot_padding: 3
 
+
+#Resolve
+resolve:
+  vfx_plate_trk_name: SRC                 # Track used to pull source shot plates
+  vfx_shots_trk_name: VFX                 # Track used to update VFX takes (Not currently Implemented)
+  vfx_shot_start_frame: 1001
+  vfx_shot_handles: 8
+  default_render_preset: exr_plates
+
+
+#Naming Conventions
 naming_convention:
-  # Shot naming convention
+  # Categories (shotid, version, image)
   shotid:
-    pfix: sht                             # Prefix to e used in shot names before the number. Change this to "sequence" if you want to use the sequence name as the prefix
+    pfix: <sequence>_                     # Prefix to e used in shot names before the number. Change this to "<sequence>" to use the sequence name as the prefix
     pad: 3                                # Shot number padding
     interval: 10                          # Default interval between shot numbers
 
@@ -42,19 +57,7 @@ naming_convention:
   image:
     pad: 4
 
-    # Subcategories
+    # Presets
     plate:
       path: images/elem                   # Directory structure with a shot folder
       file: shotid.track                  # Plate Directory and Clip names
-
-    comp:
-      path: images/comp
-      file: shotid.comp.version
-
-    pcomp:
-      path: images/pcomp
-      file: shotid.pcomp_pass_name.version
-
-    render:
-      path: images/render
-      file: shotid.scene.pass_name.version

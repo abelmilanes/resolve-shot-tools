@@ -40,6 +40,8 @@ class ResolveUtils:
         """Get clips of a specific color and assign shot names based on their index in the timeline."""
         all_clips_dict = {}
         shot_interval = self.config['kitsu']['shot_interval']
+        shot_start_frame = int(self.config['resolve']['vfx_shot_start_frame'])
+        shot_handles = int(self.config['resolve']['vfx_shot_handles'])
         timeline_clips = self.get_timeline_clips()
 
         if not timeline_clips:
@@ -84,10 +86,10 @@ class ResolveUtils:
                     'clip_vfx_marker': clip.GetLeftOffset(),
                     'clip_dur': clip.GetDuration(),
                     'shot_id': shot_id,
-                    'in': 1001,
-                    'out': 1000 + int(clip.GetDuration() + 16),
-                    'cut_in': 1009,
-                    'cut_out': 1000 + int(clip.GetDuration() + 8),
+                    'in': shot_start_frame,
+                    'out': (shot_start_frame - 1) + int(clip.GetDuration() + shot_handles * 2),
+                    'cut_in': shot_start_frame + shot_handles,
+                    'cut_out': (shot_start_frame - 1) + int(clip.GetDuration() + shot_handles),
                     'media_clip': clip.GetMediaPoolItem().GetName(),
                     'focal': clip.GetMediaPoolItem().GetMetadata('Focal Point (mm)'),
                     'fstop': clip.GetMediaPoolItem().GetMetadata('Camera Aperture'),

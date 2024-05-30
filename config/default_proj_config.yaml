@@ -1,16 +1,17 @@
 # This file sets the default configuration of a project
+
 # Project
 project:
-  name: Default Project #Project long name
-  alias: default_project #Project alias for folder structure
+  name: Default Project                   # Project long name
+  alias: default_project                  # Project alias for folder structure
   format: 2K DCI
   width: 2048
   height: 1080
   fps: 24
-  ocio: aces_1.2
+  ocio: aces_1.2                          # Currently not used
 
   # Project folders
-  path: /path/to/project/directory        # This folder need to be created manually. Override by individual project config.yaml
+  path: /path/to/project/directory        # This folder need to be created manually. Overrided by individual project config.yaml
   tmp_path: tmp                           # This folder need to be created manually
 
   #Add sequences
@@ -48,7 +49,8 @@ kitsu:
 resolve:
   vfx_plate_trk_name: SRC                 # Track used to pull source shot plates
   vfx_shots_trk_name: VFX                 # Track used to update VFX takes (Not currently Implemented)
-  vfx_handles: 8
+  vfx_shot_start_frame: 1001
+  vfx_shot_handles: 8
   default_render_preset: exr_plates
 
   clip colors:
@@ -106,28 +108,37 @@ resolve:
     - layout
     - fx
 
-  shot_start: 1001
 
 
-#Naming Convention
+#Naming Conventions
 naming_convention:
+  # Categories (shotid, version, image)
   shotid:
-    pfix: pfix_
-    pad: 4
-    interval: 10
+    pfix: sht                               # Prefix to e used in shot names before the number. Change this to "<sequence>" to use the sequence name as the prefix
+    pad: 4                                  # Shot number padding
+    interval: 10                            # Interval between shot numbers
+
+  # Default Version Padding
   version:
     pad: 2
+
+  # Various image naming convention
   image:
     pad: 4
+
+    # Presets
     plate:
-      path: images/elem
-      file: shotid.track
+      path: images/elem                   # Directory structure with a shot folder
+      file: shotid.track                  # Plate Directory and Clip names
+
     comp:
       path: images/comp
       file: shotid.comp.version
+
     pcomp:
       path: images/pcomp
       file: shotid.pcomp_pass_name.version
+
     render:
       path: images/render
       file: shotid.scene.pass_name.version
