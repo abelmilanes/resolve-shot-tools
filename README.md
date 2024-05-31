@@ -1,6 +1,8 @@
 # resolve-shot-tools
 Utility to help with VFX pulls from Davinci Resolve Timelines
 
+![rst_gui_screenshot.png](docs/rst_gui_screenshot.png)
+
 ## Features
 - Creates shot names from current Davinci Resolve Timeline.
 - Creates Render jobs for generation of plates for VFX work.
