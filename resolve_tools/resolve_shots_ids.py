@@ -27,11 +27,11 @@ class ShotIdentifier:
             custom_data = ["marker_type: vfx"]
             for k, v in clip_data.items():
                 custom_data.append(f"{k}: {v}")
-            custom_data = '\n'.join(custom_data)
-
+            marker_custom_data = '\n'.join(custom_data)
+            message_custom_data = '\n'.join(custom_data)
             if not dry_run:
                 clip.DeleteMarkersByColor(marker_color)
-                marker = clip.AddMarker(marker_frame, marker_color, shot_id, "VFX Shot", clip_dur - 1, custom_data)
+                marker = clip.AddMarker(marker_frame, marker_color, shot_id, "VFX Shot", clip_dur - 1, marker_custom_data)
                 if marker:
                     self.proj_utils.message(f"Added marker at FrameId: {marker_frame + 1}")
 
@@ -39,7 +39,8 @@ class ShotIdentifier:
             self.proj_utils.message(f"||||| Shot: {shot_id}")
             self.proj_utils.message('-------------------------------------')
             self.proj_utils.message(f"Added marker at FrameId: {marker_frame + 1}")
-            self.proj_utils.message(custom_data)
+            self.proj_utils.message("Marker Custom Data:")
+            self.proj_utils.message(message_custom_data)
 
     def _as_versions(self, clip_color, seq, index_offset, dry_run=True):
         clips_dict = self.resolve_utils.get_clips(clip_color, seq, index_offset)

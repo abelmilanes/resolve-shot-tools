@@ -4,7 +4,7 @@ import os
 import sys
 import argparse
 
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette, QColor
 
@@ -183,22 +183,50 @@ def quit_app():
 def run(project):
     app = QtWidgets.QApplication(sys.argv)
 
-    dark_palette = QPalette()
-    dark_palette.setColor(QPalette.Window, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.WindowText, Qt.white)
-    dark_palette.setColor(QPalette.Base, QColor(25, 25, 25))
-    dark_palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.ToolTipBase, Qt.white)
-    dark_palette.setColor(QPalette.ToolTipText, Qt.white)
-    dark_palette.setColor(QPalette.Text, Qt.white)
-    dark_palette.setColor(QPalette.Button, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.ButtonText, Qt.white)
-    dark_palette.setColor(QPalette.BrightText, Qt.red)
-    dark_palette.setColor(QPalette.Link, QColor(42, 130, 218))
-    dark_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
-    dark_palette.setColor(QPalette.HighlightedText, Qt.black)
+    palette = QtGui.QPalette()
 
-    app.setPalette(dark_palette)
+    # Define colors
+    dark_gray = QtGui.QColor(53, 53, 53)
+    gray = QtGui.QColor(128, 128, 128)
+    light_gray = QtGui.QColor(192, 192, 192)
+    black = QtGui.QColor(0, 0, 0)
+    white = QtGui.QColor(255, 255, 255)
+    blue = QtGui.QColor(42, 130, 218)
+    red = QtGui.QColor(255, 0, 0)
+    disabled_text = gray
+
+    # Set the palette
+    palette.setColor(QtGui.QPalette.Window, dark_gray)
+    palette.setColor(QtGui.QPalette.WindowText, white)
+    palette.setColor(QtGui.QPalette.Base, black)
+    palette.setColor(QtGui.QPalette.AlternateBase, dark_gray)
+    palette.setColor(QtGui.QPalette.ToolTipBase, white)
+    palette.setColor(QtGui.QPalette.ToolTipText, white)
+    palette.setColor(QtGui.QPalette.Text, white)
+    palette.setColor(QtGui.QPalette.Button, dark_gray)
+    palette.setColor(QtGui.QPalette.ButtonText, white)
+    palette.setColor(QtGui.QPalette.BrightText, red)
+    palette.setColor(QtGui.QPalette.Link, blue)
+    palette.setColor(QtGui.QPalette.Highlight, blue)
+    palette.setColor(QtGui.QPalette.HighlightedText, black)
+
+    # Set the palette for disabled widgets
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Window, dark_gray)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, disabled_text)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Base, dark_gray)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, dark_gray)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipBase, white)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, disabled_text)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Text, disabled_text)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Button, dark_gray)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, disabled_text)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.BrightText, red)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Link, blue)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.Highlight, dark_gray)
+    palette.setColor(QtGui.QPalette.Disabled, QtGui.QPalette.HighlightedText, disabled_text)
+
+    app.setPalette(palette)
+
 
     qt_app = RST_App(project)
     qt_app.show()
