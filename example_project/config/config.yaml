@@ -1,16 +1,16 @@
 # Project configuration file
-# It overrides any configuration set in the proj_master_config.yaml file
+# Overrides any configuration set in the proj_master_config.yaml file
 # Careful when changing the structure of this file
 
 # Project
 project:
   name: Example Project                   # Project long name
   alias: example_project                  # Project alias for folder structure
-  format: 4K DCI
-  width: 4096
-  height: 2160
-  fps: 24
-  ocio: aces_1.2                          # Currently not used
+  format: 4K DCI                          # Informative, not used in RST functions
+  width: 4096                             # Informative, not used in RST functions
+  height: 2160                            # Informative, not used in RST functions
+  fps: 24                                 # Informative, not used in RST functions
+  ocio: aces_1.2                          # Informative, not used in RST functions
 
   # Project folders
   path: .                                 # This folder need to be created manually. In this example project path is set to where the rst_gui.py lives
