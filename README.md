@@ -66,14 +66,14 @@ resolve:
 - Curently this name is used to name the rendered plates. This can be changed in Naming section of the project configuration file.
 
 ### Kitsu
-A Kitsu Project need to be present. The project name should be mirrored in the ```proj_master_config.yaml``` file.
+A Kitsu Project needs to be present. The project name should be mirrored in the ```proj_master_config.yaml``` file.
 
 Kitsu Server URL can be edited in the configuration files. You need administrative credentials to publish Kitsu shot entries. The creadential are read fomr the following System Environment Variables:
 ```
 TX_KITSU_ADMIN = username
 TX_KITSU_PASWD = password
 ```
-In addition, valid Task and Status enries need to be defined in the Kitsu Project. These need to match the ones set in the Kistu section of the configuration files.
+In addition, valid Task and Status entries need to be defined in the Kitsu Project. These need to match the ones set in the Kistu section of the configuration files.
 
 
 ## Notes and Disclaimer 
