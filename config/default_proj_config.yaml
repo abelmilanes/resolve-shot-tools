@@ -1,4 +1,5 @@
 # This file sets the default configuration of a project
+# Careful when changing the structure of this file
 
 # Project
 project:
@@ -14,7 +15,7 @@ project:
   path: /path/to/project/directory        # This folder need to be created manually. Overrided by individual project config.yaml
   tmp_path: tmp                           # This folder need to be created manually
 
-  #Add sequences
+  # Add sequences
   sequences:                              # Sequences prefixes to be used. The list of sequence get overwriten by local project config files
     - tst                                 # Sequence folder are created unde the project name
 
@@ -32,7 +33,6 @@ kitsu:
   shot_interval: 10
   shot_padding: 4
   kitsu_data: ['Project',
-               'Episode',
                'Sequence',
                'Name',
                'Description',
@@ -49,11 +49,11 @@ kitsu:
 resolve:
   vfx_plate_trk_name: SRC                 # Track used to pull source shot plates
   vfx_shots_trk_name: VFX                 # Track used to update VFX takes (Not currently Implemented)
-  vfx_shot_start_frame: 1001
-  vfx_shot_handles: 8
-  default_render_preset: exr_plates
+  vfx_shot_start_frame: 1001              # Staring frame including handles
+  vfx_shot_handles: 8                     # Amount of handles before cut in. In this case the first frame of the cut will be 1009
+  default_render_preset: exr_plates       # Name of the Resolve Delivery Preset. By default is set to a custom one created to render Plates EXR sequences
 
-  clip colors:
+  clip colors:                            # The selected color will be used to set shotids in the timeline
     - Orange
     - Apricot
     - Yellow
@@ -70,7 +70,7 @@ resolve:
     - Beige
     - Brown
     - Chocolate
-  flag colors: #Flags and Markers
+  flag colors:                             # Flags Colors will be use for Markers colors as well as to select what shots get sent to the delivery page for plate rendering
     - Blue
     - Cyan
     - Green
@@ -128,17 +128,9 @@ naming_convention:
 
     # Presets
     plate:
-      path: images/elem                   # Directory structure with a shot folder
-      file: shotid.track                  # Plate Directory and Clip names
+      path: images/elem                     # Directory structure with a shot folder
+      file: <shotid>.<track_name>           # Plate Directory and Clip names
 
-    comp:
-      path: images/comp
-      file: shotid.comp.version
-
-    pcomp:
-      path: images/pcomp
-      file: shotid.pcomp_pass_name.version
-
-    render:
-      path: images/render
-      file: shotid.scene.pass_name.version
+#    openclip:
+#      path: images/openclip
+#      file: <shotid>

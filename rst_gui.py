@@ -17,9 +17,9 @@ from resolve_tools.resolve_export_csv import export_csv
 from kitsu_tools import kitsu_shots, kitsu_connect
 
 
-class PrjApp(window.Ui_main_window, QtWidgets.QMainWindow):
+class RST_App(window.Ui_main_window, QtWidgets.QMainWindow):
     def __init__(self, project):
-        super(PrjApp, self).__init__()
+        super(RST_App, self).__init__()
         self.config = Config().get_config()
         self.resolve_utils = ResolveUtils()
         self.shot_identifier = ShotIdentifier()
@@ -66,6 +66,11 @@ class PrjApp(window.Ui_main_window, QtWidgets.QMainWindow):
         initial_message = "PROJECT PARAMETERS:\n"
         for k, v in config['project'].items():
             initial_message += f"{k}: {v}\n"
+
+        # initial_message += "\nRESOLVE PARAMETERS:\n"
+        # for k, v in config['resolve'].items():
+        #     initial_message += f"{k}: {v}\n"
+
         initial_message += "\nKITSU PARAMETERS:\n"
         for k, v in config['kitsu'].items():
             initial_message += f"{k}: {v}\n"
@@ -195,7 +200,7 @@ def run(project):
 
     app.setPalette(dark_palette)
 
-    qt_app = PrjApp(project)
+    qt_app = RST_App(project)
     qt_app.show()
     app.exec()
 

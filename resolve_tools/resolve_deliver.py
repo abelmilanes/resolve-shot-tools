@@ -31,7 +31,7 @@ def vfx_plate_job(config, clip_color, flag_color, seq, index_offset, job_preset,
                     project = config['project']['alias']
 
                     project_path = config['project']['path']
-                    naming_data = naming('image', 'plate', {"shotid": shot_id, "track": "%{Track Name}"})
+                    naming_data = naming('image', 'plate', {"<shotid>": shot_id, "<track_name>": "%{Track Name}"})
                     naming_path = naming_data['path']
                     naming_name = naming_data['name']
                     target_dir = os.path.join(project_path, project, seq, shot_id, naming_path, naming_name)

@@ -1,5 +1,6 @@
 # Project configuration file
 # It overrides any configuration set in the proj_master_config.yaml file
+# Careful when changing the structure of this file
 
 # Project
 project:
@@ -15,7 +16,7 @@ project:
   path: .                                 # This folder need to be created manually. In this example project path is set to where the rst_gui.py lives
   tmp_path: tmp
 
-  #Add sequences
+  # Add sequences
   sequences:                              # Sequences prefixes to be used. The list of sequence get overwriten by local project config files
     - seq01
     - seq02
@@ -36,9 +37,9 @@ kitsu:
 resolve:
   vfx_plate_trk_name: SRC                 # Track used to pull source shot plates
   vfx_shots_trk_name: VFX                 # Track used to update VFX takes (Not currently Implemented)
-  vfx_shot_start_frame: 1001
-  vfx_shot_handles: 8
-  default_render_preset: exr_plates
+  vfx_shot_start_frame: 1001              # Staring frame including handles
+  vfx_shot_handles: 8                     # Amount of handles before cut in. In this case the first frame of the cut will be 1009
+  default_render_preset: exr_plates       # Name of the Resolve Delivery Preset. By default is set to a custom one created to render Plates EXR sequences
 
 
 #Naming Conventions
@@ -60,4 +61,8 @@ naming_convention:
     # Presets
     plate:
       path: images/elem                   # Directory structure with a shot folder
-      file: shotid.track                  # Plate Directory and Clip names
+      file: <shotid>.<track_name>         # Plate Directory and Clip names
+
+#    openclip:
+#      path: images/openclip
+#      file: <shotid>
