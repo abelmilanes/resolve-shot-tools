@@ -68,7 +68,7 @@ resolve:
 ### Kitsu
 A Kitsu Project needs to be present. The project name should be mirrored in the ```proj_master_config.yaml``` file.
 
-Kitsu Server URL can be edited in the configuration files. You need administrative credentials to publish Kitsu shot entries. The creadential are read fomr the following System Environment Variables:
+Kitsu Server URL can be edited in the configuration files. You need administrative credentials to publish Kitsu shot entries. The creadential are read from the following System Environment Variables:
 ```
 TX_KITSU_ADMIN = username
 TX_KITSU_PASWD = password
