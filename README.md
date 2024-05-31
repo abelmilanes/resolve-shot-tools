@@ -7,7 +7,7 @@ Utility to help with VFX pulls from Davinci Resolve Timelines
 - Creates shot names from current Davinci Resolve Timeline.
 - Creates Render jobs for generation of plates for VFX work.
 - Generates shot entries for Kitsu shot management.
-- YAML based configuration files for shot nameming, metadata, etc.
+- YAML based configuration files for shot naming, metadata, etc.
 
 ## Requirments
 ### Python
