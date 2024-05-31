@@ -1,6 +1,8 @@
 # resolve-shot-tools
 Utility to help with VFX pulls from Davinci Resolve Timelines
 
+Tested on Rocky Linux 9.3, Resolve 19.0b3, Kitsu 0.19.35, Python 3.11.
+
 ![rst_gui_screenshot.png](docs/rst_gui_screenshot.png)
 
 ## Features
