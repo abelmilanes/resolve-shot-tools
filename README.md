@@ -44,6 +44,13 @@ Additional per-project configuration file need to be created and edited. An exam
 - Edit the ```./config/proj_master_config.yaml``` file to add your projects
 - Edit the ```./config/default_proj_config.yaml``` file to set default parameters for all your projects
 - Create and edit per project ```config.yaml``` files to se overrides for specific project parameters. This file should be placed in the ```<project root dir>/config``` folder. An example is provided in the ```./example_project``` folder.
+- VFX sequence can be added in the ```sequences``` section of the configurations file:
+```
+  sequences:
+    - seq01
+    - seq02
+    - seq03
+```
 - Any setting set at the project level ```config.yaml``` file overrides the same setting on the ```default_proj_config.yaml```. Only seetings that are differnt can be added.
 
 
