@@ -31,7 +31,6 @@ def get_thumb(config, shot_id):
     curr_thumb = ct.GetCurrentClipThumbnailImage()
     if (curr_thumb is None) or (len(curr_thumb) == 0):
         print("There is no current media thumbnail")
-
     width = curr_thumb["width"]
     height = curr_thumb["height"]
     iformat = curr_thumb["format"]  # Currently we only have RBG 8 bit format

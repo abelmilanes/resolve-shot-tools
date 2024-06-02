@@ -28,7 +28,7 @@ class ShotIdentifier:
             for k, v in clip_data.items():
                 custom_data.append(f"{k}: {v}")
             marker_custom_data = '\n'.join(custom_data)
-            message_custom_data = '\n'.join(custom_data)
+            message_custom_data = '\n  '.join(custom_data)
             if not dry_run:
                 clip.DeleteMarkersByColor(marker_color)
                 marker = clip.AddMarker(marker_frame, marker_color, shot_id, "VFX Shot", clip_dur - 1, marker_custom_data)
