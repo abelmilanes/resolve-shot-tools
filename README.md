@@ -56,22 +56,18 @@ python rst_gui.py -p example_project
 - Edit ```./resolve_tools/resolve_connect.py``` to point to your Resolve installation Resolve Python API modules.
   
 ### Config Files
-Configuration is currently manual by editing the YAML configuration files in the **config** folder.
+- ```./config/proj_master_config.yaml``` Created projects. Proects will be added automatically by the -```--create <PROJECT_PATH>``` option.
+- ```./config/default_proj_config.yaml``` Config files with default parameters for all created projects.
+- ```<project root dir>/config/config.yaml``` Per project configuration file. Created manually or by the ```--create <PROJECT_PATH>``` option. Any setting set at the project level ```config.yaml``` file overrides the same setting on the ```default_proj_config.yaml```.
 
-Additional per-project configuration file need to be created and edited. An example project is included in the **example_project** folder.
-
-- Edit the ```./config/proj_master_config.yaml``` file to add your projects
-- Edit the ```./config/default_proj_config.yaml``` file to set default parameters for all your projects
-- Create and edit per project ```config.yaml``` files to se overrides for specific project parameters. This file should be placed in the ```<project root dir>/config``` folder. An example is provided in the ```./example_project``` folder.
-- VFX sequences can be added in the ```sequences``` section of the configurations file:
+### Adding Sequences
+- VFX sequences can be added in the ```sequences``` section of the configurations file. This shoudl be done is the project level ```config.yaml``` file.
 ```
   sequences:
     - seq01
     - seq02
     - seq03
 ```
-- Any setting set at the project level ```config.yaml``` file overrides the same setting on the ```default_proj_config.yaml```. Only seetings that are differnt can be added.
-
 
 ### Resolve Timeline
 
