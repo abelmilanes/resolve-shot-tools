@@ -13,6 +13,8 @@ https://vimeo.com/952901264
 - Creates Render jobs for generation of plates for VFX work.
 - Generates shot entries for Kitsu shot management.
 - YAML based configuration files for shot naming, metadata, etc.
+- **NEW!** Timeline Clip Name used for shot naming.
+- **NEW!** Flag for creating a project config file given a project root dir.
 
 ## Requirments
 ### Python
@@ -27,13 +29,25 @@ https://vimeo.com/952901264
 - Davinci Resolve
 - Running Kitsu Server with admin priviledges 
 
-
 ## Usage
 - Resolve needs to be running with the relevant timeline opened.
+
+```
+usage: rst_gui.py [-h] [-p PROJECT] [-C PROJECT_PATH]
+
+Tools to help with VFX shot work in DaVinci Resolve
+
+options:
+  -h, --help            show this help message and exit
+  -p PROJECT, --project PROJECT
+                        VFX Project name
+  -C PROJECT_PATH, --create PROJECT_PATH
+                        Create new project at specified root path
+```
 ```
 python rst_gui.py -p <project name>
 ```
-Example Project
+Included Example Project
 ```
 python rst_gui.py -p example_project
 ```
