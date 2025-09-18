@@ -30,13 +30,32 @@ def vfx_plate_job(config, clip_color, flag_color, seq, index_offset, job_preset,
                     mark_out = int(clip.GetEnd())-1
                     project = config['project']['alias']
 
+                    plate_naming = naming('image',
+                                          'plate',
+                                          {
+                                              # "<shotid>": shot_id,
+                                              "<shotid>": "%{Clip Name}",
+                                              "<track_name>": "%{Track Name}"
+                                          }
+                                          )
+                    plate_path = plate_naming['path']
+                    plate_name = plate_naming['name']
+
                     project_path = config['project']['path']
-                    naming_data = naming('image', 'plate', {"<shotid>": shot_id, "<track_name>": "%{Track Name}"})
-                    naming_path = naming_data['path']
-                    naming_name = naming_data['name']
-                    target_dir = os.path.join(project_path, project, seq, shot_id, naming_path, naming_name)
+
+                    render_path = naming("paths",
+                                         "plates",
+                                         {
+                                             "<proj_root>": project_path,
+                                             "<proj>": project,
+                                             "<seq>": seq,
+                                             # "<shotid>": shot_id
+                                             "<shotid>": "%{Clip Name}"
+                                         }
+                                         )
+                    target_dir = os.path.join(render_path, plate_path, plate_name)
                     print(target_dir)
-                    plate_name = naming_name+'.'
+                    plate_name = plate_name+'.'
                     message(plate_name)
                     message(target_dir)
                     message("\n|||||||||||||||||||||||||||||||||\n")
