@@ -6,7 +6,7 @@ import argparse
 from PySide6 import QtCore, QtWidgets, QtGui
 from ui import rst_ui as window
 from proj_tools.proj_data import Config
-from proj_tools import proj_create
+from proj_tools.proj_create import ProjectCreator
 from resolve_tools.resolve_utils import ResolveUtils
 from resolve_tools.resolve_shots_ids import ShotIdentifier
 from resolve_tools.resolve_deliver import vfx_plate_job
@@ -239,9 +239,12 @@ if __name__ == "__main__":
         if not args.project:
             print("Error: Must specify project name with -p when creating new project")
             sys.exit(1)
-        if proj_create.create_project(args.project, args.project_path):
-            print(f"\nProject creation completed. To start working with the project:")
-            print(f"./rst_gui.py -p {args.project}")
+        creator = ProjectCreator()
+        if creator.create_project(args.project, args.project_path):
+            print(f"\nProject ready!\n")
+            print((f"Name: {args.project.title()}"))
+            print((f"Path: {os.path.join(args.project_path, args.project)}"))
+            print(f"Config: {os.path.join(args.project_path, args.project, 'config', 'config.yaml')}\n")
         sys.exit(0)
 
     elif args.project:
