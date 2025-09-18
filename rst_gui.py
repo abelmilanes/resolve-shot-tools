@@ -3,13 +3,10 @@
 import os
 import sys
 import argparse
-
 from PySide6 import QtCore, QtWidgets, QtGui
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPalette, QColor
-
 from ui import rst_ui as window
 from proj_tools.proj_data import Config
+from proj_tools import proj_create
 from resolve_tools.resolve_utils import ResolveUtils
 from resolve_tools.resolve_shots_ids import ShotIdentifier
 from resolve_tools.resolve_deliver import vfx_plate_job
@@ -36,7 +33,6 @@ class RST_App(window.Ui_main_window, QtWidgets.QMainWindow):
         self.flag_CB.addItems(config['resolve']['flag colors'])
         self.odt_CB.addItems(config['resolve']['odt'])
         self.createas_CB.addItems(config['resolve']['id_as'])
-        self.createas_CB.setCurrentText('Markers')
         self.resolveshots_BT.clicked.connect(self.name_shots)
         self.renderjobs_BT.clicked.connect(lambda: self.render_jobs())
         self.job_presets_CB.addItems(self.render_presets)
@@ -50,17 +46,17 @@ class RST_App(window.Ui_main_window, QtWidgets.QMainWindow):
         self.close_BT.clicked.connect(quit_app)
         self.clearRIDs_BT.clicked.connect(lambda: self.clear_ids())
         self.kitsuURL.setText(config['kitsu']['server'])
-
         self.messages_TE.setReadOnly(True)
 
         sys.stdout = EmittingStream()
         sys.stdout.msg.connect(self.message)
 
         resolve_version = self.resolve_utils.get_resolve_version()
-        self.message(f"Resolve is connected.\n{resolve_version}\n")
+        self.message(f"Resolve is connected.\nVersion: {resolve_version}\n")
 
         initial_message = self.get_initial_message(config)
         self.message(initial_message)
+
 
     def get_initial_message(self, config):
         initial_message = "PROJECT PARAMETERS:\n"
@@ -232,18 +228,25 @@ def run(project):
     qt_app.show()
     app.exec()
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Tools to help with VFX shot work in DaVinci Resolve')
     parser.add_argument('-p', '--project', action="store", dest="project", help='VFX Project name')
+    parser.add_argument('-C', '--create', action="store", dest="project_path", help='Create new project at specified root path')
 
     args = parser.parse_args()
 
-    if args.project:
-        project_name = args.project
-        os.environ['RST_PROJ'] = project_name
-        run(project_name)
-        print("Project set")
+    if args.project_path:
+        if not args.project:
+            print("Error: Must specify project name with -p when creating new project")
+            sys.exit(1)
+        if proj_create.create_project(args.project, args.project_path):
+            print(f"\nProject creation completed. To start working with the project:")
+            print(f"./rst_gui.py -p {args.project}")
+        sys.exit(0)
+
+    elif args.project:
+        os.environ['RST_PROJ'] = args.project
+        run(args.project)
     else:
         print("PROJ set to .example_project/\nPlease provide --project argument")
-        sys.exit()
+        sys.exit(1)

@@ -28,10 +28,10 @@
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Shadow::Raised</enum>
    </property>
    <widget class="QTextEdit" name="messages_TE">
     <property name="geometry">
@@ -57,7 +57,7 @@
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>71</width>
+      <width>91</width>
       <height>26</height>
      </rect>
     </property>
@@ -68,6 +68,9 @@
     </property>
     <property name="text">
      <string>Sequence</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QComboBox" name="seq_CB">
@@ -93,7 +96,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>71</width>
+      <width>91</width>
       <height>26</height>
      </rect>
     </property>
@@ -106,6 +109,9 @@
     <property name="text">
      <string>Project</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+    </property>
    </widget>
    <widget class="QLineEdit" name="proj_TE">
     <property name="enabled">
@@ -116,7 +122,7 @@
       <x>110</x>
       <y>10</y>
       <width>211</width>
-      <height>21</height>
+      <height>24</height>
      </rect>
     </property>
     <property name="font">
@@ -137,7 +143,7 @@
       <x>110</x>
       <y>40</y>
       <width>211</width>
-      <height>21</height>
+      <height>24</height>
      </rect>
     </property>
     <property name="font">
@@ -157,7 +163,7 @@
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>41</width>
+      <width>91</width>
       <height>26</height>
      </rect>
     </property>
@@ -168,6 +174,9 @@
     </property>
     <property name="text">
      <string>Path</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="resolveshots_BT">
@@ -258,7 +267,7 @@
      <string>Clip Color</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QComboBox" name="flag_CB">
@@ -291,13 +300,13 @@
      </font>
     </property>
     <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="text">
      <string>Flag Color</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="export_csv_BT">
@@ -369,7 +378,7 @@
      <string>Resolve IDs as</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QCheckBox" name="start_index_CKB">
@@ -400,16 +409,16 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>330</y>
+      <y>334</y>
       <width>41</width>
-      <height>31</height>
+      <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>10</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
   </widget>
@@ -428,10 +437,10 @@
     </font>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Shadow::Raised</enum>
    </property>
    <widget class="QPushButton" name="renderjobs_BT">
     <property name="enabled">
@@ -487,7 +496,7 @@
      <string>Render ODT</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="job_presets_LB">
@@ -508,7 +517,7 @@
      <string>Job Presets</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QComboBox" name="job_presets_CB">
@@ -576,10 +585,10 @@
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Shadow::Raised</enum>
    </property>
    <widget class="QPushButton" name="kitsushots_BT">
     <property name="geometry">
@@ -652,7 +661,7 @@
      <string>http://192.168.100.80:8800</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
   </widget>
