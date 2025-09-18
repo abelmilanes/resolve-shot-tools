@@ -96,10 +96,11 @@ resolve:
     - sRGB
     - sRGB (Linear) - CSC
   id_as:
+    - Clip Name
     - Versions
     - Markers
-    - Clip Name
-    - Shot Name
+
+
   vfx_tasks:
     - elem
     - roto
@@ -109,12 +110,11 @@ resolve:
     - fx
 
 
-
 #Naming Conventions
 naming_convention:
-  # Categories (shotid, version, image)
+  # Categories (shotid, version, image, paths)
   shotid:
-    pfix: sht                               # Prefix to e used in shot names before the number. Change this to "<sequence>" to use the sequence name as the prefix
+    pfix: sht                               # Prefix to be used in shot names before the number. Change this to "<sequence>" to use the sequence name as the prefix
     pad: 4                                  # Shot number padding
     interval: 10                            # Interval between shot numbers
 
@@ -127,10 +127,21 @@ naming_convention:
     pad: 4
 
     # Presets
+    # Plate
     plate:
       path: images/elem                     # Directory structure with a shot folder
       file: <shotid>.<track_name>           # Plate Directory and Clip names
 
+    # Openclip
 #    openclip:
 #      path: images/openclip
-#      file: <shotid>
+#      file: <shotid>.clip
+
+  # Paths
+  paths:
+    # Presets
+    plates:
+      path: <proj_root>/<proj>/<seq>/<shotid>
+
+    openclips:
+      path: <proj_root>/<proj>/<seq>/openclip
