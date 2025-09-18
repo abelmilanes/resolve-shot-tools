@@ -14,7 +14,7 @@ class ResolveUtils:
 
     def get_resolve_version(self):
         resolve = ResolveConnection().dr
-        return f"{resolve.GetProductName()}: {resolve.GetVersionString()}"
+        return resolve.GetVersionString()
 
     def get_timeline_clips(self):
         """Get clips from the configured video track in the current timeline."""
