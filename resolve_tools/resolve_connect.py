@@ -40,6 +40,8 @@ class ResolveConnection:
     def get_render_jobs(self):
         return self.rp.GetRenderJobList()
 
+    def get_media_pool(self):
+        return self.rp.GetMediaPool()
 # Example usage:
 # resolve_conn = ResolveConnection()
 # current_project = resolve_conn.get_current_project()
