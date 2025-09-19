@@ -89,7 +89,11 @@ TX_KITSU_ADMIN = username
 TX_KITSU_PASWD = password
 ```
 In addition, valid Task and Status entries need to be defined in the Kitsu Project. These need to match the ones set in the Kistu section of the configuration files.
-
+```commandline
+kitsu:
+  shot_create_task: Comp                  # This need to be a valid task name in Kitsu
+  shot_create_status: RTS                 # Ready to start. This need to be a valid status name in Kitsu
+```
 
 ## Notes and Disclaimer 
 This project is a HEAVY work in progres and some sections will brake. I am an artist not a developer and the code is far from being efficient. This project is provided as a proof of concept for a more robust tool.

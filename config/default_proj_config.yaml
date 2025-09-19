@@ -23,7 +23,7 @@ project:
 # Any folder will be created on the project folder
 kitsu:
   server: 'http://192.168.100.80:8800'    # Your Kitsu server URL
-  config_folder: config                   # This folder need to be created manually
+  config_folder: config                   # This folder may need to be created manually
   thumbnail_folder: thumbnails            # Directory to save thumbnails for Kitsu shot entries. This folder is cretated automatically
 
   # Defaults for shot creation
