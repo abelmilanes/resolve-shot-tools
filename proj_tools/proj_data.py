@@ -21,9 +21,33 @@ class Config:
         return self._config
 
 
-CONFIG_DIR = os.path.join(os.path.dirname(__file__), '../config')
-MASTER_CONFIG_FILE = os.path.join(CONFIG_DIR, 'proj_master_config.yaml')
-DEFAULT_CONFIG_FILE = os.path.join(CONFIG_DIR, 'default_proj_config.yaml')
+def setup_config_files():
+    """Setup config files in RST_CONFIG_DIR if it exists and return config file paths"""
+    default_dir = os.path.join(os.path.dirname(__file__), '../config')
+    env_config_dir = os.getenv('RST_CONFIG_DIR')
+
+    if env_config_dir and os.path.isdir(env_config_dir):
+        os.makedirs(env_config_dir, exist_ok=True)
+
+        # Create a new empty master config if it doesn't exist
+        master_config_file = os.path.join(env_config_dir, 'proj_master_config.yaml')
+        if not os.path.exists(master_config_file):
+            with open(master_config_file, 'w') as f:
+                yaml.dump({'projects': []}, f)
+
+        # Copy default config if needed
+        default_config_file = os.path.join(env_config_dir, 'default_proj_config.yaml')
+        src_default = os.path.join(default_dir, 'default_proj_config.yaml')
+        if os.path.exists(src_default) and not os.path.exists(default_config_file):
+            import shutil
+            shutil.copy2(src_default, default_config_file)
+    else:
+        master_config_file = os.path.join(default_dir, 'proj_master_config.yaml')
+        default_config_file = os.path.join(default_dir, 'default_proj_config.yaml')
+
+    return master_config_file, default_config_file
+
+MASTER_CONFIG_FILE, DEFAULT_CONFIG_FILE = setup_config_files()
 
 
 def load_yaml(file_path):
