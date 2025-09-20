@@ -123,21 +123,21 @@ class ShotIdentifier:
             shot_id = clip_data['shot_id']
 
             # Openclip
-            openclip_name = self.naming("image", "openclip", {"<shotid>": shot_id})
-            openclip_path = self.naming("paths",
-                                        "openclips",
-                                        {
-                                            "<proj_root>": self.config['project']['path'],
-                                            "<proj>": self.config['project']['alias'],
-                                            "<seq>": seq
-                                        }
-                                        )
+            # openclip_name = self.naming("image", "openclip", {"<shotid>": shot_id})
+            # openclip_path = self.naming("paths",
+            #                             "openclips",
+            #                             {
+            #                                 "<proj_root>": self.config['project']['path'],
+            #                                 "<proj>": self.config['project']['alias'],
+            #                                 "<seq>": seq
+            #                             }
+            #                             )
             # openclip_name = openclip_info["name"]
             # openclip_path = openclip_info["path"]
             # print(openclip_path)
-            openclip = os.path.join(openclip_path, openclip_name["name"])
+            # openclip = os.path.join(openclip_path, openclip_name["name"])
             # print(openclip)
-            custom_data.append(f"openclip: {openclip}")
+            # custom_data.append(f"openclip: {openclip}")
 
             # Add Marker
             clip_dur = clip_data['clip_dur']
