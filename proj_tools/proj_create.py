@@ -1,13 +1,14 @@
 import os
 import yaml
 from typing import Tuple, Optional, Dict, Any
+from proj_tools.proj_data import MASTER_CONFIG_FILE, DEFAULT_CONFIG_FILE
 
 class ProjectCreator:
     def __init__(self):
         self.current_dir = os.path.dirname(os.path.abspath(__file__))
         self.main_dir = os.path.dirname(self.current_dir)
-        self.master_config_file = os.path.join(self.main_dir, 'config', 'proj_master_config.yaml')
-        self.default_config = os.path.join(self.main_dir, 'config', 'default_proj_config.yaml')
+        self.master_config_file = MASTER_CONFIG_FILE
+        self.default_config = DEFAULT_CONFIG_FILE
 
     def create_project_folder(self, root_path: str, project_name: str) -> Optional[str]:
         """Create project directory inside root path"""
