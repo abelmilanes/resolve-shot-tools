@@ -1,7 +1,7 @@
 # resolve-shot-tools
 Utility to help with VFX pulls from Davinci Resolve Timelines
 
-Tested on Rocky Linux 9.3, Resolve 19.0b3, Kitsu 0.19.35, Python 3.11.
+Tested on Rocky Linux 9.3, Resolve 20.2, Kitsu 0.20.87, Python 3.11.
 
 ![rst_gui_screenshot.png](docs/rst_gui_screenshot.png)
 
@@ -54,10 +54,11 @@ python rst_gui.py -p example_project
 ## Configuration
 ### Resolve Python API
 - Edit ```./resolve_tools/resolve_connect.py``` to point to your Resolve installation Resolve Python API modules.
-  
+### Environment Variables
+If the ```RST_CONFIG_DIR``` environment variable is set, the application will look for the configuration files in that path. If not set, it will look in the ```./config/``` folder relative to where the application is run from.
 ### Config Files
-- ```./config/proj_master_config.yaml``` Created projects. Proects will be added automatically by the -```--create <PROJECT_PATH>``` option.
-- ```./config/default_proj_config.yaml``` Config files with default parameters for all created projects.
+- ```./config/proj_master_config.yaml``` or ```$RST_CONFIG_DIR/proj_master_config.yaml``` Created projects. Proects will be added automatically by the -```--create <PROJECT_PATH>``` option.
+- ```./config/default_proj_config.yaml``` or  ```$RST_CONFIG_DIR/default_proj_config.yaml```Config files with default parameters for all created projects.
 - ```<project root dir>/config/config.yaml``` Per project configuration file. Created manually or by the ```--create <PROJECT_PATH>``` option. Any setting set at the project level ```config.yaml``` file overrides the same setting on the ```default_proj_config.yaml```.
 
 ### Adding Sequences
