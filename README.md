@@ -55,7 +55,7 @@ python rst_gui.py -p example_project
 ### Resolve Python API
 - Edit ```./resolve_tools/resolve_connect.py``` to point to your Resolve installation Resolve Python API modules.
 ### Environment Variables
-If the ```RST_CONFIG_DIR``` environment variable is set, the application will look for the configuration files in that path. If not set, it will look in the ```./config/``` folder relative to where the application is run from.
+If the ```RST_CONFIG_DIR``` environment variable is set, the application will look for the configuration files in that path. If not set, it will look in the ```./config/``` in the application folder.
 ### Config Files
 - ```./config/proj_master_config.yaml``` or ```$RST_CONFIG_DIR/proj_master_config.yaml``` Created projects. Proects will be added automatically by the -```--create <PROJECT_PATH>``` option.
 - ```./config/default_proj_config.yaml``` or  ```$RST_CONFIG_DIR/default_proj_config.yaml```Config files with default parameters for all created projects.
